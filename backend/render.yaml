@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: sakthi-dental-api
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false
+      - key: SMTP_HOST
+        value: smtp-relay.brevo.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: CLINIC_EMAIL
+        value: info@sakthidentalclinic.in
+      - key: ALLOWED_ORIGINS
+        sync: false
