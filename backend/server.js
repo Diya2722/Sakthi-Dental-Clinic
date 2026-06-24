@@ -17,20 +17,27 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 // CORS
+// CORS — must come BEFORE routes
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
   : ['http://localhost:5173', 'http://localhost:3000']
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
+    if (!origin) return callback(null, true)
+    if (allowedOrigins.some(o => origin === o || origin.startsWith(o))) {
+      return callback(null, true)
     }
+    console.error('CORS blocked origin:', origin)
+    return callback(new Error('Not allowed by CORS'))
   },
   credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }))
+
+// Handle preflight for all routes
+app.options('*', cors())
 
 // Rate limiting for contact form
 const contactLimiter = rateLimit({
