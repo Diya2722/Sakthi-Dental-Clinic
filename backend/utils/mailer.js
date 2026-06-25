@@ -35,7 +35,7 @@ const sendContactEmail = async ({ name, email, phone, message }) => {
   // Email to clinic
   const clinicMail = {
     from: `"Sakthi Dental Clinic Website" <${process.env.SMTP_FROM}>`,
-    to: process.env.CLINIC_EMAIL || 'info@sakthidentalclinic.in',
+    to: process.env.CLINIC_EMAIL || 'sakthidentalclinic2004@gmail.com',
     subject: `New Appointment/Enquiry from ${name}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
