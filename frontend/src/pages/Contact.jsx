@@ -41,7 +41,7 @@ export default function Contact() {
     }
     setLoading(true)
     try {
-      await axios.post(`${API_URL}/api/contact`, form, { timeout: 15000 })
+      await axios.post(`${API_URL}/api/contact`, form, { timeout: 60000 })
       toast.success('Thank you! We will contact you shortly.')
       setForm({ name: '', email: '', phone: '', message: '' })
     } catch (err) {
