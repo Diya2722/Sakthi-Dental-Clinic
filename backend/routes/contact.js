@@ -43,18 +43,16 @@ router.post('/', validateContact, async (req, res) => {
     // 1. Save to MongoDB
     const contact = await Contact.create({ name, email, phone, message })
 
-    // 2. Send emails (non-blocking — don't fail the response if email fails)
-    try {
-      await sendContactEmail({ name, email, phone, message })
-    } catch (emailErr) {
-      console.error('Email sending failed (non-critical):', emailErr.message)
-    }
-
-    return res.status(201).json({
+    // 2. Respond to frontend IMMEDIATELY — don't wait for email
+    res.status(201).json({
       success: true,
       message: 'Thank you! Your message has been received. We will contact you within 24 hours.',
       id: contact._id,
     })
+
+    // 3. Send email AFTER response — non-blocking
+    sendContactEmail({ name, email, phone, message })
+      .catch(emailErr => console.error('Email sending failed:', emailErr.message))
   } catch (err) {
     console.error('Contact form error:', err)
     return res.status(500).json({
