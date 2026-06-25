@@ -25,7 +25,7 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true)
-    if (allowedOrigins.some(o => origin === o || origin.startsWith(o))) {
+    if (allowedOrigins.some(o => origin === o || origin.startsWith(o)) || origin.endsWith('.vercel.app')) {
       return callback(null, true)
     }
     console.error('CORS blocked origin:', origin)
