@@ -1,4 +1,4 @@
-# 🦷 Sakthi Dental Clinic — Official Website
+# 🦷 Sakthi Dental Clinic 
 
 A modern, fully responsive **MERN stack** website built for **Sakthi Dental Clinic**, Hosur, Tamil Nadu. The website provides patients with detailed information about dental treatments, doctor profiles, clinic facilities, and a fully functional contact/appointment form with email notifications and MongoDB storage.
 
