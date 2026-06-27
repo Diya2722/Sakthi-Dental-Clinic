@@ -1,28 +1,15 @@
-const nodemailer = require('nodemailer')
+const { Resend } = require('resend')
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const sendContactEmail = async ({ name, email, phone, message = '' }) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      secure: true,
-      port: 465,
-      pool: true,
-      maxConnections: 1,
-      tls: {
-        rejectUnauthorized: false
-      }
-    })
+    console.log(`📧 Sending emails via Resend for ${email}...`)
 
-    console.log(`📧 Trying to send emails to ${email}...`)
-
-    // Clinic Email
-    const clinicMail = {
-      from: `"Sakthi Dental Clinic Website" <${process.env.SMTP_USER}>`,
-      to: process.env.CLINIC_EMAIL || 'info@sakthidentalclinic.in',
+    // Clinic notification email
+    const clinicResult = await resend.emails.send({
+      from: process.env.RESEND_FROM || 'Sakthi Dental Clinic <onboarding@resend.dev>',
+      to: [process.env.CLINIC_EMAIL || 'sakthidentalclinic2004@gmail.com'],
       subject: `New Enquiry from ${name}`,
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
@@ -52,12 +39,14 @@ const sendContactEmail = async ({ name, email, phone, message = '' }) => {
           </div>
         </div>
       `
-    }
+    })
 
-    // Patient Confirmation Email
-    const patientMail = {
-      from: `"Sakthi Dental Clinic" <${process.env.SMTP_USER}>`,
-      to: email,
+    console.log('✅ Clinic notification email sent:', clinicResult)
+
+    // Patient confirmation email
+    const patientResult = await resend.emails.send({
+      from: process.env.RESEND_FROM || 'Sakthi Dental Clinic <onboarding@resend.dev>',
+      to: [email],
       subject: 'Thank you for contacting Sakthi Dental Clinic!',
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
@@ -80,18 +69,15 @@ const sendContactEmail = async ({ name, email, phone, message = '' }) => {
           </div>
         </div>
       `
-    }
+    })
 
-    await Promise.allSettled([
-      transporter.sendMail(clinicMail),
-      transporter.sendMail(patientMail)
-    ])
-
-    console.log(`✅ Emails sent successfully for ${email}`)
+    console.log('✅ Patient confirmation email sent:', patientResult)
 
   } catch (error) {
     console.error('❌ Email failed:', error.message)
-    if (error.code) console.error('Code:', error.code)
+    if (error.statusCode) console.error('Status:', error.statusCode)
+    // Re-throw so the caller knows it failed
+    throw error
   }
 }
 

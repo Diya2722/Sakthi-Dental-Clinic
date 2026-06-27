@@ -11,16 +11,10 @@ services:
         value: 5000
       - key: MONGO_URI
         sync: false
-      - key: SMTP_HOST
-        value: smtp.gmail.com
-      - key: SMTP_PORT
-        value: 587
-      - key: SMTP_USER
+      - key: RESEND_API_KEY
         sync: false
-      - key: SMTP_PASS
-        sync: false
-      - key: SMTP_FROM
-        sync: false
+      - key: RESEND_FROM
+        value: "Sakthi Dental Clinic <onboarding@resend.dev>"
       - key: CLINIC_EMAIL
         value: sakthidentalclinic2004@gmail.com
       - key: ALLOWED_ORIGINS
