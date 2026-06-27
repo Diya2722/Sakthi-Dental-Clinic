@@ -1,9 +1,9 @@
-# 🦷 Sakthi Dental Clinic 
+# 🦷 Sakthi Dental Clinic
 
 A modern, fully responsive **MERN stack** website built for **Sakthi Dental Clinic**, Hosur, Tamil Nadu. The website provides patients with detailed information about dental treatments, doctor profiles, clinic facilities, and a fully functional contact/appointment form with email notifications and MongoDB storage.
 
 > 🔗 **Live Demo:** [https://sakthi-dental-clinic-lime.vercel.app](https://sakthi-dental-clinic-lime.vercel.app)
-> 
+>
 > 🔗 **Backend API:** [https://sakthi-dental-clinic-n2sa.onrender.com](https://sakthi-dental-clinic-n2sa.onrender.com)
 
 ---
@@ -31,7 +31,7 @@ A modern, fully responsive **MERN stack** website built for **Sakthi Dental Clin
 - 🦷 **15 Treatments** — Categorized with filter tabs and detail modal popup
 - 👩‍⚕️ **Doctor Profiles** — Team of 9 specialists with roles and details
 - 📬 **Contact Form** — Full validation, saves to MongoDB, sends dual email notifications
-- 📧 **Email Notifications** — Clinic alert + patient confirmation via Gmail SMTP
+- 📧 **Email Notifications** — Clinic alert + patient confirmation via Resend API
 - 🎨 **Smooth Animations** — Page transitions and scroll animations with Framer Motion
 - 📱 **Fully Responsive** — Mobile-first design for all screen sizes
 - 🔒 **Security** — Helmet.js headers, CORS, rate limiting (5 req/15 min)
@@ -61,7 +61,7 @@ A modern, fully responsive **MERN stack** website built for **Sakthi Dental Clin
 | Node.js | Runtime environment |
 | Express.js | Web framework |
 | MongoDB + Mongoose | Database & ODM |
-| Nodemailer | Email sending |
+| Resend API | Email sending (reliable on cloud) |
 | Helmet.js | Security HTTP headers |
 | express-rate-limit | API rate limiting |
 | express-validator | Input validation |
@@ -115,7 +115,7 @@ sakthi-dental/
     ├── routes/
     │   └── contact.js                 # POST /api/contact + GET /api/contact
     ├── utils/
-    │   └── mailer.js                  # Nodemailer email templates
+    │   └── mailer.js                  # Resend email templates
     ├── server.js                      # Express app + MongoDB connection
     ├── .env.example                   # Environment variables template
     ├── render.yaml                    # Render deployment config
@@ -131,7 +131,7 @@ Make sure you have these installed:
 - [Node.js](https://nodejs.org/) >= 18.0.0
 - [Git](https://git-scm.com/)
 - [MongoDB Atlas](https://www.mongodb.com/atlas) account (free)
-- Gmail account with [App Password](https://myaccount.google.com/apppasswords) enabled
+- [Resend](https://resend.com) account (free — 3000 emails/month)
 
 ### Clone the Repository
 
@@ -207,23 +207,20 @@ Create `backend/.env` file:
 
 ```env
 # MongoDB Atlas connection string
-MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/sakthi-dental?retryWrites=true&w=majority
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/sakthi-dental?retryWrites=true&w=majority&appName=<AppName>
 
 # Server port
 PORT=5000
 
-# Gmail SMTP (enable 2FA + generate App Password at myaccount.google.com/apppasswords)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
-SMTP_USER=yourgmail@gmail.com
-SMTP_PASS=your_16_digit_app_password
+# Resend Email API (get free API key at resend.com)
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+RESEND_FROM=Sakthi Dental Clinic <onboarding@resend.dev>
 
-# Email addresses
-SMTP_FROM=yourgmail@gmail.com
-CLINIC_EMAIL=yourgmail@gmail.com
+# Where clinic appointment notifications are sent
+CLINIC_EMAIL=your-clinic-email@gmail.com
 
 # Allowed frontend origins (comma-separated)
-ALLOWED_ORIGINS=http://localhost:5173,https://your-frontend.vercel.app
+ALLOWED_ORIGINS=https://your-frontend.vercel.app,http://localhost:5173
 ```
 
 ### Frontend `.env`
@@ -231,35 +228,38 @@ ALLOWED_ORIGINS=http://localhost:5173,https://your-frontend.vercel.app
 Create `frontend/.env` file:
 
 ```env
-# Your backend URL
-VITE_API_URL=http://localhost:5000
+# Your deployed backend URL
+VITE_API_URL=https://your-backend.onrender.com
 ```
+
+> ⚠️ **Never commit `.env` files to GitHub.** Both `.gitignore` files already exclude them. Add all environment variables directly in the Render and Vercel dashboards when deploying.
 
 ---
 
 ## ☁️ Deployment
 
-### 1. MongoDB Atlas
+### 1. MongoDB Atlas (Database)
 1. Create free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
-2. Database Access → Add user with password
+2. Database Access → Add user with username + password
 3. Network Access → **Allow from anywhere** (`0.0.0.0/0`)
-4. Get connection string → paste as `MONGO_URI`
+4. Connect → Drivers → Copy connection string → paste as `MONGO_URI`
 
 ### 2. Backend → Render
 1. Push `backend/` to GitHub
 2. [Render](https://render.com) → New Web Service → Connect repo
-3. Build: `npm install` | Start: `node server.js`
-4. Add all environment variables in Render dashboard
-5. Deploy → copy your Render URL
+3. Set **Build Command:** `npm install`
+4. Set **Start Command:** `node server.js`
+5. Add all environment variables in Render dashboard
+6. Click **Deploy** → copy your Render URL
 
 ### 3. Frontend → Vercel
 1. Push `frontend/` to GitHub
 2. [Vercel](https://vercel.com) → New Project → Import repo
-3. Root Directory: `frontend`
-4. Add `VITE_API_URL` = your Render URL
-5. Deploy
+3. Set **Root Directory:** `frontend`
+4. Add environment variable: `VITE_API_URL` = your Render URL
+5. Click **Deploy**
 
-> ⚠️ After deploying frontend, update `ALLOWED_ORIGINS` in Render to include your Vercel domain.
+> ✅ After deploying frontend, update `ALLOWED_ORIGINS` in Render dashboard to include your Vercel domain.
 
 ---
 
@@ -272,34 +272,33 @@ Contributions are welcome! Please follow these steps:
 ```bash
 git checkout -b feature/your-feature-name
 ```
-3. Make your changes
-4. Commit with a clear message
+3. Make your changes and commit
 ```bash
 git commit -m "feat: add your feature description"
 ```
-5. Push to your fork
+4. Push to your fork
 ```bash
 git push origin feature/your-feature-name
 ```
-6. Open a Pull Request
+5. Open a Pull Request
 
 ### Coding Guidelines
 - Use meaningful variable and function names
 - Keep components small and reusable
-- Follow existing code style and formatting
-- Test your changes locally before submitting
+- Follow existing Tailwind class patterns
+- Test locally before submitting PR
 
 ---
 
 ## 🔮 Future Scope
 
-- [ ] **Online Appointment Booking** — Real-time slot selection and calendar integration
-- [ ] **Admin Dashboard** — View and manage all contact form submissions
+- [ ] **Online Appointment Booking** — Real-time slot selection with calendar
+- [ ] **Admin Dashboard** — View and manage all contact submissions
 - [ ] **Patient Login Portal** — Track appointments and treatment history
-- [ ] **WhatsApp Integration** — Auto-send appointment confirmations via WhatsApp
+- [ ] **WhatsApp Integration** — Auto-send confirmations via WhatsApp API
 - [ ] **Multi-language Support** — Tamil and Hindi language options
-- [ ] **Blog Section** — Dental health tips and articles
-- [ ] **Live Chat** — Real-time patient support widget
+- [ ] **Blog Section** — Dental health tips and awareness articles
+- [ ] **Live Chat Widget** — Real-time patient support
 - [ ] **Payment Gateway** — Online consultation fee payment
 
 ---
@@ -307,14 +306,14 @@ git push origin feature/your-feature-name
 ## 🙏 Acknowledgments
 
 - **Dr. Anupriya & Team** — Sakthi Dental Clinic, Hosur for trusting us with this project
-- **ShadowFox** — For providing this internship opportunity and client project
+- **ShadowFox** — For providing this internship opportunity and real client project experience
 - [React](https://react.dev/) — Frontend framework
 - [Tailwind CSS](https://tailwindcss.com/) — Utility-first CSS framework
 - [Framer Motion](https://www.framer.com/motion/) — Animation library
-- [Lucide React](https://lucide.dev/) — Icon library
+- [Resend](https://resend.com/) — Reliable transactional email API
 - [MongoDB Atlas](https://www.mongodb.com/atlas) — Cloud database
-- [Render](https://render.com/) — Backend deployment
-- [Vercel](https://vercel.com/) — Frontend deployment
+- [Render](https://render.com/) — Backend deployment platform
+- [Vercel](https://vercel.com/) — Frontend deployment platform
 
 ---
 
