@@ -1,46 +1,79 @@
 # 🦷 Sakthi Dental Clinic — Official Website
 
-A modern, fully responsive MERN stack website for **Sakthi Dental Clinic**, Hosur, Tamil Nadu. Built with React, Vite, Tailwind CSS on the frontend and Node.js, Express, MongoDB on the backend. Features include appointment contact form with email notifications, 15+ treatment pages, doctor profiles, testimonials, FAQ, and more.
+A modern, fully responsive **MERN stack** website built for **Sakthi Dental Clinic**, Hosur, Tamil Nadu. The website provides patients with detailed information about dental treatments, doctor profiles, clinic facilities, and a fully functional contact/appointment form with email notifications and MongoDB storage.
+
+> 🔗 **Live Demo:** [https://sakthi-dental-clinic-lime.vercel.app](https://sakthi-dental-clinic-lime.vercel.app)
+> 
+> 🔗 **Backend API:** [https://sakthi-dental-clinic-n2sa.onrender.com](https://sakthi-dental-clinic-n2sa.onrender.com)
 
 ---
 
-## 🌐 Live Demo
-- **Frontend:** `https://sakthi-dental.vercel.app` *(update after deployment)*
-- **Backend API:** `https://sakthi-dental-api.onrender.com` *(update after deployment)*
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Configuration](#-configuration)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+- [Future Scope](#-future-scope)
+- [Acknowledgments](#-acknowledgments)
+- [License](#-license)
 
 ---
 
 ## ✨ Features
 
-- ✅ Fully responsive — mobile, tablet, desktop
-- ✅ Hero image slider with 3 clinic banners
-- ✅ 6 complete pages — Home, About, Treatments, Contact, FAQ, Privacy Policy
-- ✅ 15 treatments with category filter + detail modal
-- ✅ Contact form → saves to MongoDB + sends dual emails
-- ✅ Patient confirmation email + clinic notification email
-- ✅ Smooth animations with Framer Motion
-- ✅ Rate limiting — 5 form submissions per 15 minutes
-- ✅ Security headers with Helmet.js
-- ✅ SEO optimized meta tags
-- ✅ Doctor team section with 9 specialists
-- ✅ Google Maps embed on contact page
+- 🏠 **Hero Slider** — Auto-rotating banner with 3 clinic images and smooth transitions
+- 📄 **6 Complete Pages** — Home, About Us, Treatments, Contact, FAQ, Privacy Policy
+- 🦷 **15 Treatments** — Categorized with filter tabs and detail modal popup
+- 👩‍⚕️ **Doctor Profiles** — Team of 9 specialists with roles and details
+- 📬 **Contact Form** — Full validation, saves to MongoDB, sends dual email notifications
+- 📧 **Email Notifications** — Clinic alert + patient confirmation via Gmail SMTP
+- 🎨 **Smooth Animations** — Page transitions and scroll animations with Framer Motion
+- 📱 **Fully Responsive** — Mobile-first design for all screen sizes
+- 🔒 **Security** — Helmet.js headers, CORS, rate limiting (5 req/15 min)
+- 🗺️ **Google Maps** — Embedded clinic location on Contact page
+- ⚡ **Fast Loading** — Vite build with optimized assets
+- 🔍 **SEO Optimized** — Meta tags, Open Graph, descriptive titles
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, Vite, Tailwind CSS 3 |
-| Animations | Framer Motion |
-| Routing | React Router v6 |
-| HTTP Client | Axios |
-| Notifications | React Hot Toast |
-| Backend | Node.js, Express.js |
-| Database | MongoDB + Mongoose |
-| Email | Nodemailer + Gmail SMTP |
-| Security | Helmet, CORS, Rate Limiting |
-| Deployment | Vercel + Render + MongoDB Atlas |
+### Frontend
+| Technology | Purpose |
+|-----------|---------|
+| React 18 | UI framework |
+| Vite | Build tool & dev server |
+| Tailwind CSS 3 | Styling & responsive design |
+| Framer Motion | Animations & transitions |
+| React Router v6 | Client-side routing |
+| Axios | HTTP requests to backend |
+| React Hot Toast | Success/error notifications |
+| Lucide React | Icons |
+
+### Backend
+| Technology | Purpose |
+|-----------|---------|
+| Node.js | Runtime environment |
+| Express.js | Web framework |
+| MongoDB + Mongoose | Database & ODM |
+| Nodemailer | Email sending |
+| Helmet.js | Security HTTP headers |
+| express-rate-limit | API rate limiting |
+| express-validator | Input validation |
+| Morgan | HTTP request logging |
+| dotenv | Environment variables |
+
+### Deployment
+| Service | Purpose |
+|---------|---------|
+| Vercel | Frontend hosting |
+| Render | Backend hosting |
+| MongoDB Atlas | Cloud database |
 
 ---
 
@@ -48,205 +81,262 @@ A modern, fully responsive MERN stack website for **Sakthi Dental Clinic**, Hosu
 
 ```
 sakthi-dental/
-├── frontend/                   # React + Vite + Tailwind
+│
+├── frontend/                          # React + Vite application
 │   ├── public/
 │   │   └── assets/
-│   │       ├── banners/        # Hero slider images
-│   │       ├── treatments/     # Treatment images
-│   │       ├── amenities/      # Facility icons
-│   │       └── logo/           # Clinic logo
+│   │       ├── banners/               # Hero slider images (3 banners)
+│   │       ├── treatments/            # Treatment images (15 images)
+│   │       ├── amenities/             # Facility icons (5 icons)
+│   │       └── logo/                  # Clinic logo
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   └── ScrollToTop.jsx
-│   │   └── pages/
-│   │       ├── Home.jsx
-│   │       ├── About.jsx
-│   │       ├── Treatments.jsx
-│   │       ├── Contact.jsx
-│   │       ├── FAQ.jsx
-│   │       └── PrivacyPolicy.jsx
-│   ├── .env.example
-│   └── vercel.json
+│   │   │   ├── Navbar.jsx             # Responsive navigation with mobile menu
+│   │   │   ├── Footer.jsx             # Footer with links, contact, social icons
+│   │   │   └── ScrollToTop.jsx        # Auto scroll on route change
+│   │   ├── pages/
+│   │   │   ├── Home.jsx               # Hero, Why Us, Services, Testimonials, Amenities
+│   │   │   ├── About.jsx              # Doctor story, Vision & Mission, Team
+│   │   │   ├── Treatments.jsx         # 15 treatments with filter + modal
+│   │   │   ├── Contact.jsx            # Form with validation + clinic info + map
+│   │   │   ├── FAQ.jsx                # 14 FAQs with accordion
+│   │   │   └── PrivacyPolicy.jsx      # Full privacy policy
+│   │   ├── App.jsx                    # Router setup
+│   │   ├── main.jsx                   # React entry point
+│   │   └── index.css                  # Global styles + Tailwind imports
+│   ├── .env.example                   # Environment variables template
+│   ├── vercel.json                    # Vercel SPA routing config
+│   ├── tailwind.config.js             # Tailwind custom theme
+│   └── vite.config.js                 # Vite configuration
 │
-└── backend/                    # Node.js + Express
+└── backend/                           # Node.js + Express API
     ├── models/
-    │   └── Contact.js          # MongoDB schema
+    │   └── Contact.js                 # MongoDB contact schema
     ├── routes/
-    │   └── contact.js          # API route + validation
+    │   └── contact.js                 # POST /api/contact + GET /api/contact
     ├── utils/
-    │   └── mailer.js           # Nodemailer email templates
-    ├── server.js               # Main Express app
-    ├── .env.example
-    └── render.yaml             # Render deployment config
+    │   └── mailer.js                  # Nodemailer email templates
+    ├── server.js                      # Express app + MongoDB connection
+    ├── .env.example                   # Environment variables template
+    ├── render.yaml                    # Render deployment config
+    └── package.json
 ```
 
 ---
 
-## 🚀 Local Development Setup
+## 🚀 Installation
 
 ### Prerequisites
-- Node.js >= 18
-- MongoDB Atlas account (free)
-- Gmail account with App Password enabled
+Make sure you have these installed:
+- [Node.js](https://nodejs.org/) >= 18.0.0
+- [Git](https://git-scm.com/)
+- [MongoDB Atlas](https://www.mongodb.com/atlas) account (free)
+- Gmail account with [App Password](https://myaccount.google.com/apppasswords) enabled
 
----
+### Clone the Repository
 
-### 1. Clone the project
 ```bash
-git clone https://github.com/yourusername/sakthi-dental.git
-cd sakthi-dental
+git clone https://github.com/Diya2722/Sakthi-Dental-Clinic.git
+cd Sakthi-Dental-Clinic/sakthi-dental
 ```
 
----
-
-### 2. Backend Setup
+### Backend Setup
 
 ```bash
 cd backend
 npm install
 cp .env.example .env
-```
-
-Fill in your `.env` file:
-```env
-MONGO_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/sakthi-dental?retryWrites=true&w=majority
-PORT=5000
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=yourgmail@gmail.com
-SMTP_PASS=your16digitapppassword
-SMTP_FROM=yourgmail@gmail.com
-CLINIC_EMAIL=yourgmail@gmail.com
-ALLOWED_ORIGINS=http://localhost:5173
-```
-
-```bash
+# Fill in your .env values (see Configuration section)
 npm run dev
-# ✅ MongoDB connected
-# 🚀 Server running on port 5000
 ```
 
----
-
-### 3. Frontend Setup
+### Frontend Setup
 
 ```bash
 cd frontend
 npm install
 cp .env.example .env
+# Set VITE_API_URL=http://localhost:5000
+npm run dev
 ```
 
-Fill in your `.env` file:
+---
+
+## 💻 Usage
+
+After running both servers:
+
+- Frontend: [http://localhost:5173](http://localhost:5173)
+- Backend API: [http://localhost:5000](http://localhost:5000)
+
+### Available Routes
+
+| Route | Page |
+|-------|------|
+| `/` | Home page with hero slider |
+| `/about` | About Dr. Anupriya and team |
+| `/treatments` | All 15 dental treatments |
+| `/contact` | Contact form + clinic info |
+| `/faq` | Frequently asked questions |
+| `/privacy-policy` | Privacy policy |
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Health check |
+| `POST` | `/api/contact` | Submit contact form |
+| `GET` | `/api/contact` | Get all submissions |
+
+### Testing the Contact Form
+
+1. Go to `http://localhost:5173/contact`
+2. Fill in Name, Email, Phone (all required)
+3. Click **Submit Message**
+4. ✅ Green toast appears
+5. Data saved to MongoDB Atlas
+6. Two emails sent — one to clinic, one to patient
+
+---
+
+## ⚙️ Configuration
+
+### Backend `.env`
+
+Create `backend/.env` file:
+
 ```env
+# MongoDB Atlas connection string
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/sakthi-dental?retryWrites=true&w=majority
+
+# Server port
+PORT=5000
+
+# Gmail SMTP (enable 2FA + generate App Password at myaccount.google.com/apppasswords)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=yourgmail@gmail.com
+SMTP_PASS=your_16_digit_app_password
+
+# Email addresses
+SMTP_FROM=yourgmail@gmail.com
+CLINIC_EMAIL=yourgmail@gmail.com
+
+# Allowed frontend origins (comma-separated)
+ALLOWED_ORIGINS=http://localhost:5173,https://your-frontend.vercel.app
+```
+
+### Frontend `.env`
+
+Create `frontend/.env` file:
+
+```env
+# Your backend URL
 VITE_API_URL=http://localhost:5000
 ```
 
+---
+
+## ☁️ Deployment
+
+### 1. MongoDB Atlas
+1. Create free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas)
+2. Database Access → Add user with password
+3. Network Access → **Allow from anywhere** (`0.0.0.0/0`)
+4. Get connection string → paste as `MONGO_URI`
+
+### 2. Backend → Render
+1. Push `backend/` to GitHub
+2. [Render](https://render.com) → New Web Service → Connect repo
+3. Build: `npm install` | Start: `node server.js`
+4. Add all environment variables in Render dashboard
+5. Deploy → copy your Render URL
+
+### 3. Frontend → Vercel
+1. Push `frontend/` to GitHub
+2. [Vercel](https://vercel.com) → New Project → Import repo
+3. Root Directory: `frontend`
+4. Add `VITE_API_URL` = your Render URL
+5. Deploy
+
+> ⚠️ After deploying frontend, update `ALLOWED_ORIGINS` in Render to include your Vercel domain.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a new branch
 ```bash
-npm run dev
-# → http://localhost:5173
+git checkout -b feature/your-feature-name
 ```
-
----
-
-## ☁️ Deployment Guide
-
-### Step 1 — MongoDB Atlas (Database)
-1. Go to [mongodb.com/atlas](https://www.mongodb.com/atlas) → Create free account
-2. Create a free **M0 cluster**
-3. Database Access → Add user with username + password
-4. Network Access → Add IP → **Allow from anywhere** `0.0.0.0/0`
-5. Connect → Drivers → Copy the connection URI
-6. Paste URI into backend `.env` as `MONGO_URI`
-
----
-
-### Step 2 — Deploy Backend to Render
-1. Push `backend/` folder to GitHub
-2. Go to [render.com](https://render.com) → **New Web Service**
-3. Connect your GitHub repo
-4. Configure:
-   - **Build Command:** `npm install`
-   - **Start Command:** `node server.js`
-   - **Node Version:** `18`
-5. Add all environment variables from `.env` in Render dashboard
-6. Click **Deploy**
-7. Copy your Render URL → e.g. `https://sakthi-dental-api.onrender.com`
-
----
-
-### Step 3 — Deploy Frontend to Vercel
-1. Push `frontend/` folder to GitHub
-2. Go to [vercel.com](https://vercel.com) → **New Project**
-3. Import your GitHub repo
-4. Set **Root Directory** → `frontend`
-5. Add environment variable:
-   - `VITE_API_URL` = your Render backend URL
-6. Click **Deploy**
-7. Also update `ALLOWED_ORIGINS` in your Render backend to include your Vercel domain
-
----
-
-## 📄 Pages Overview
-
-| Route | Page | Description |
-|-------|------|-------------|
-| `/` | Home | Hero slider, Why Us, Services, Testimonials, Amenities, CTA |
-| `/about` | About Us | Dr. Anupriya story, Vision & Mission, Team of 9 doctors |
-| `/treatments` | Treatments | 15 treatments, category filter, detail modal |
-| `/contact` | Contact | Form with validation, clinic info, Google Maps |
-| `/faq` | FAQ | 14 questions with accordion |
-| `/privacy-policy` | Privacy Policy | Full policy content |
-
----
-
-## 📧 Email Flow
-
+3. Make your changes
+4. Commit with a clear message
+```bash
+git commit -m "feat: add your feature description"
 ```
-Patient submits form
-        ↓
-Backend validates data
-        ↓
-Saves to MongoDB
-        ↓
-Sends Email 1 → CLINIC_EMAIL (appointment alert)
-Sends Email 2 → Patient email (confirmation)
-        ↓
-Returns success response to frontend
-        ↓
-Frontend shows success toast
+5. Push to your fork
+```bash
+git push origin feature/your-feature-name
 ```
+6. Open a Pull Request
+
+### Coding Guidelines
+- Use meaningful variable and function names
+- Keep components small and reusable
+- Follow existing code style and formatting
+- Test your changes locally before submitting
 
 ---
 
-## 🔐 Security Features
+## 🔮 Future Scope
 
-- **Helmet.js** — Sets secure HTTP headers
-- **CORS** — Only allows requests from specified origins
-- **Rate Limiting** — Max 5 contact form submissions per 15 minutes
-- **Express Validator** — Server-side input validation
-- **MongoDB Sanitization** — Mongoose schema validation
+- [ ] **Online Appointment Booking** — Real-time slot selection and calendar integration
+- [ ] **Admin Dashboard** — View and manage all contact form submissions
+- [ ] **Patient Login Portal** — Track appointments and treatment history
+- [ ] **WhatsApp Integration** — Auto-send appointment confirmations via WhatsApp
+- [ ] **Multi-language Support** — Tamil and Hindi language options
+- [ ] **Blog Section** — Dental health tips and articles
+- [ ] **Live Chat** — Real-time patient support widget
+- [ ] **Payment Gateway** — Online consultation fee payment
+
+---
+
+## 🙏 Acknowledgments
+
+- **Dr. Anupriya & Team** — Sakthi Dental Clinic, Hosur for trusting us with this project
+- **ShadowFox** — For providing this internship opportunity and client project
+- [React](https://react.dev/) — Frontend framework
+- [Tailwind CSS](https://tailwindcss.com/) — Utility-first CSS framework
+- [Framer Motion](https://www.framer.com/motion/) — Animation library
+- [Lucide React](https://lucide.dev/) — Icon library
+- [MongoDB Atlas](https://www.mongodb.com/atlas) — Cloud database
+- [Render](https://render.com/) — Backend deployment
+- [Vercel](https://vercel.com/) — Frontend deployment
+
+---
+
+## 📄 License
+
+This project was built for **Sakthi Dental Clinic** as part of the **ShadowFox Web Development Internship Program**.
+
+All rights reserved © 2024 Sakthi Dental Clinic, Hosur, Tamil Nadu.
 
 ---
 
 ## 👩‍💻 Developer
 
 **Diya Prajapati**
-- GitHub: [github.com/Diya2722](https://github.com/Diya2722)
-- LinkedIn: [linkedin.com/in/diya-prajapati-258a27275](https://linkedin.com/in/diya-prajapati-258a27275)
+
+[![GitHub](https://img.shields.io/badge/GitHub-Diya2722-black?style=flat&logo=github)](https://github.com/Diya2722)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Diya_Prajapati-blue?style=flat&logo=linkedin)](https://linkedin.com/in/diya-prajapati-258a27275)
 
 ---
 
-## 🏥 Client
-
-**Sakthi Dental Clinic**
-B2/8, SBM Layout, Anthivadi, Hosur, Tamil Nadu 635109
-📞 +91 9862890897 / +91 9363298118
-📧 info@sakthidentalclinic.in
-🕐 Monday – Sunday: 9:00 AM – 9:00 PM
-
----
-
-## 📝 License
-This project is built for **Sakthi Dental Clinic** as part of the ShadowFox Web Development Internship.
+<div align="center">
+  <p>Made with ❤️ for healthier smiles in Hosur, Tamil Nadu 🦷</p>
+  <p><strong>Sakthi Dental Clinic</strong> | B2/8, SBM Layout, Anthivadi, Hosur, TN 635109</p>
+  <p>📞 +91 9862890897 | 📧 info@sakthidentalclinic.in | 🕐 Daily 9AM–9PM</p>
+</div>
